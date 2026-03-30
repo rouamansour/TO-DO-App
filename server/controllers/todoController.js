@@ -1,3 +1,13 @@
+// GET /api/todos/:id
+exports.getTodoById = async (req, res) => {
+  try {
+    const todo = await Todo.findById(req.params.id);
+    if (!todo) return res.status(404).json({ message: 'Todo not found' });
+    res.json(todo);
+  } catch (err) {
+    res.status(400).json({ message: 'Invalid ID' });
+  }
+};
 const Todo = require('../models/Todo');
 
 // GET /api/todos
