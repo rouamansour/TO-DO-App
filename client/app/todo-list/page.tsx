@@ -63,7 +63,7 @@ export default function TodoPage() {
             href="/add-todo"
             className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:from-blue-700 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200"
           >
-            <span className="text-lg">➕</span> Add Todo
+            <span className="text-lg text-yellow-400">➕</span>
           </Link>
         </div>
 
