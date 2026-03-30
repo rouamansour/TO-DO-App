@@ -50,19 +50,30 @@ export default function EditTodo() {
   };
 
   if (loading) {
-    return <div className="text-center text-gray-300">Loading...</div>;
+    return (
+      <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br via-white">
+        <div className="text-center text-gray-300 text-lg animate-pulse">Loading...</div>
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black py-12 px-2">
-      <div className="w-full max-w-xl p-8 bg-white/10 backdrop-blur rounded-2xl shadow-2xl border border-gray-700">
-        <h1 className="text-3xl font-extrabold mb-6 text-white drop-shadow">
-          ✏️ Edit Todo
-        </h1>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="w-full max-w-2xl p-20 bg-white/20 backdrop-blur-lg rounded-3xl shadow-2xl border border-blue-700 mx-auto mt-25">
+        <div className="flex justify-center mb-8">
+          <h1
+            className="relative text-4xl font-extrabold text-center tracking-tight px-8 py-4 bg-gradient-to-r from-blue-700/80 via-blue-500/80 to-blue-700/80 text-white rounded-2xl shadow-xl border-4 border-blue-400/80 drop-shadow-lg"
+            style={{
+              letterSpacing: '0.04em',
+              boxShadow: '0 6px 32px 0 rgba(30,64,175,0.18)',
+            }}
+          >
+            <span className="inline-block align-middle mr-2">✏️</span>
+            <span className="align-middle">Edit Todo</span>
+          </h1>
+        </div>
+        <form onSubmit={handleSubmit} className="space-y-8">
           <input
-            className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white/80 text-gray-900 text-lg"
+            className="w-full px-5 py-4 rounded-xl border border-gray-300 bg-white/80 text-gray-900 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 shadow-lg transition-all duration-200"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -70,22 +81,16 @@ export default function EditTodo() {
             required
             disabled={loading}
           />
-
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-lg"
+            className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:from-blue-700 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200 disabled:opacity-50 text-lg"
             disabled={loading}
           >
+            <span className="text-xl">✏️</span>
             {loading ? "Saving..." : "Save Todo"}
           </button>
-
-          {error && (
-            <div className="text-red-400 text-center">
-              {error}
-            </div>
-          )}
+          {error && <div className="text-red-400 text-center font-medium">{error}</div>}
         </form>
-      </div>
     </div>
   );
 }
