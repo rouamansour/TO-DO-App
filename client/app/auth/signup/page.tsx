@@ -28,7 +28,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className="flex items-center justify-center h-screen">
       <form className={styles.form} onSubmit={handleSubmit}>
         <h2 className={styles.title}>Sign Up</h2>
         <label className={styles.label} htmlFor="signup-email">Email</label>

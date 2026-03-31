@@ -26,7 +26,7 @@ export default function SignIn() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className="flex items-center justify-center h-screen">
       <form className={styles.form} onSubmit={handleSubmit}>
         <h2 className={styles.title}>Sign In</h2>
         <label className={styles.label} htmlFor="signin-email">Email</label>
