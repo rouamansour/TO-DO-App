@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Navbar from "./components/Navbar";
+import "./navbar.module.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,15 +29,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-br from-blue-50 via-white to-pink-50 min-h-screen`}
       >
-        <nav className="bg-white/80 backdrop-blur border-b border-gray-200 text-gray-900 px-6 py-4 mb-8 shadow-sm">
-          <div className="max-w-xl mx-auto flex items-center justify-between">
-            <span className="font-extrabold text-xl tracking-tight">TO-DO App</span>
-            <div className="space-x-4">
-              <a href="/todo-list" className="hover:text-blue-600 font-medium transition-colors">Todo List</a>
-              <a href="/add-todo" className="hover:text-blue-600 font-medium transition-colors">Add Todo</a>
-            </div>
-          </div>
-        </nav>
+        <Navbar />
         <main className="max-w-xl mx-auto">{children}</main>
       </body>
     </html>
