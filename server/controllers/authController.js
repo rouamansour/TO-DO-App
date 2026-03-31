@@ -32,13 +32,13 @@ exports.signIn = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "Email and password are required !!!",
       });
     }
     const user = await User.findOne({ email });
     if (!user || !(await user.isPassCorrect(password, user.password))) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "Email or password are incorrect !!",
       });
     }
