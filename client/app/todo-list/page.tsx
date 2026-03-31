@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 type Todo = {
   _id: string;
   title: string;
+  completed: boolean;
 };
 
 export default function TodoPage() {
@@ -21,7 +22,8 @@ export default function TodoPage() {
         setTodos(data);
         setLoading(false);
       });
-  }, []);
+  }, [])
+
 
   // Delete todo
   const handleDelete = async (id: string) => {
@@ -36,15 +38,48 @@ export default function TodoPage() {
     } catch (err) {
       console.error(err);
     }
-  };
+  }
+
+  // Mark as done
+  const handleDone = async (id: string) => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/todos/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ completed: true }),
+      });
+      if (res.ok) {
+        setTodos((prev) =>
+          prev.map((todo) =>
+            todo._id === id ? { ...todo, completed: true } : todo
+          )
+        );
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   // Edit todo: redirect to edit page
+  // Show message if trying to edit a completed task
+  const [editError, setEditError] = useState<string | null>(null);
   const handleEdit = (id: string) => {
+    const todo = todos.find((t) => t._id === id);
+    if (todo?.completed) {
+      setEditError("You can't edit a completed task");
+      setTimeout(() => setEditError(null), 2000);
+      return;
+    }
     router.push(`/edit-todo/${id}`);
-  };
+  }
 
   return (
       <div className="w-full max-w-2xl p-20 bg-white/20 backdrop-blur-lg rounded-3xl shadow-2xl border border-blue-700 mx-auto mt-25">
+        {editError && (
+          <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-center font-semibold shadow">
+            {editError}
+          </div>
+        )}
         <div className="flex justify-center mb-8">
           <h1
             className="relative text-4xl font-extrabold text-center tracking-tight px-8 py-4 bg-gradient-to-r from-blue-700/80 via-blue-500/80 to-blue-700/80 text-white rounded-2xl shadow-xl border-4 border-blue-400/80 drop-shadow-lg"
@@ -86,18 +121,35 @@ export default function TodoPage() {
                     key={todo._id}
                     className="hover:bg-blue-50/70 transition-colors duration-200 group"
                   >
-                    <td className="px-6 py-4 text-gray-900 font-medium text-lg group-hover:text-blue-700 transition-colors duration-200">
+                    <td
+                      className={`px-6 py-4 font-medium text-lg group-hover:text-blue-700 transition-colors duration-200 ${
+                        todo.completed ? "line-through text-gray-400" : "text-gray-900"
+                      }`}
+                    >
                       {todo.title}
+                      {todo.completed && (
+                        <span className="ml-2 text-green-600" title="Done">✔️</span>
+                      )}
                     </td>
                     <td className="px-6 py-4 flex gap-2 items-center">
-                      {/* Edit */}
-                      <button
-                        className="flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700 font-semibold rounded-lg shadow hover:bg-blue-200 hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-150"
-                        onClick={() => handleEdit(todo._id)}
-                        title="Edit"
-                      >
-                        <span>✏️</span>
-                      </button>
+                      {!todo.completed && (
+                        <button
+                          className="flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 font-semibold rounded-lg shadow hover:bg-green-200 hover:text-green-900 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-150"
+                          onClick={() => handleDone(todo._id)}
+                          title="Mark as done"
+                        >
+                          <span>✔️</span>
+                        </button>
+                      )}
+                      {!todo.completed && (
+                        <button
+                          className="flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700 font-semibold rounded-lg shadow hover:bg-blue-200 hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-150"
+                          onClick={() => handleEdit(todo._id)}
+                          title="Edit"
+                        >
+                          <span>✏️</span>
+                        </button>
+                      )}
                       {/* Delete */}
                       <button
                         className="flex items-center gap-1 px-3 py-1 bg-red-100 text-red-700 font-semibold rounded-lg shadow hover:bg-red-200 hover:text-red-900 focus:outline-none focus:ring-2 focus:ring-red-400 transition-all duration-150"
@@ -114,5 +166,6 @@ export default function TodoPage() {
           </div>
         )}
       </div>
-  );
+  )
+  
 }
