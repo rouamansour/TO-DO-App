@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
 const todoRoutes = require('./routes/todoRoutes');
+const authRoutes = require('./routes/authRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/todos', todoRoutes);
+app.use('/api/auth', authRoutes);
 
 // Error handler (doit être en dernier)
 app.use(errorHandler);
