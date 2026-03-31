@@ -29,7 +29,9 @@ export default function SignIn() {
     <div className={styles.container}>
       <form className={styles.form} onSubmit={handleSubmit}>
         <h2 className={styles.title}>Sign In</h2>
+        <label className={styles.label} htmlFor="signin-email">Email</label>
         <input
+          id="signin-email"
           className={styles.input}
           type="email"
           placeholder="Email"
@@ -37,7 +39,9 @@ export default function SignIn() {
           onChange={e => setEmail(e.target.value)}
           required
         />
+        <label className={styles.label} htmlFor="signin-password">Password</label>
         <input
+          id="signin-password"
           className={styles.input}
           type="password"
           placeholder="Password"

@@ -38,6 +38,12 @@
   border: 1.5px solid #6366f1;
   outline: none;
 }
+.input[type="password"] {
+  background: #f9fafb;
+  color: #2d3748;
+  letter-spacing: 0.1em;
+  -webkit-text-security: disc;
+}
 
 .button {
   background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
@@ -79,4 +85,13 @@
 }
 .switch a:hover {
   text-decoration: underline;
+}
+
+.label {
+  font-size: 1rem;
+  color: #2d3748;
+  margin-bottom: 0.3rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+  display: block;
 }

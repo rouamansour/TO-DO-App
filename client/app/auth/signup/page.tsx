@@ -31,7 +31,9 @@ export default function SignUp() {
     <div className={styles.container}>
       <form className={styles.form} onSubmit={handleSubmit}>
         <h2 className={styles.title}>Sign Up</h2>
+        <label className={styles.label} htmlFor="signup-email">Email</label>
         <input
+          id="signup-email"
           className={styles.input}
           type="email"
           placeholder="Email"
@@ -39,7 +41,9 @@ export default function SignUp() {
           onChange={e => setEmail(e.target.value)}
           required
         />
+        <label className={styles.label} htmlFor="signup-password">Password</label>
         <input
+          id="signup-password"
           className={styles.input}
           type="password"
           placeholder="Password"
@@ -47,7 +51,9 @@ export default function SignUp() {
           onChange={e => setPassword(e.target.value)}
           required
         />
+        <label className={styles.label} htmlFor="signup-password-confirm">Confirm Password</label>
         <input
+          id="signup-password-confirm"
           className={styles.input}
           type="password"
           placeholder="Confirm Password"
