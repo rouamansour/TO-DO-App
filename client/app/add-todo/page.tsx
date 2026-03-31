@@ -39,7 +39,6 @@ export default function AddTodo() {
 							boxShadow: '0 6px 32px 0 rgba(30,64,175,0.18)',
 						}}
 					>
-						<span className="inline-block align-middle mr-2">➕</span>
 						<span className="align-middle">Add Todo</span>
 					</h1>
 				</div>
@@ -59,7 +58,7 @@ export default function AddTodo() {
 						disabled={loading}
 					>
 						<span className="text-xl">➕</span>
-						{loading ? "Adding..." : "Add Todo"}
+						{loading ? "Adding..." : "Add"}
 					</button>
 					{error && <div className="text-red-400 text-center font-medium">{error}</div>}
 				</form>
