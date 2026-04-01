@@ -1,4 +1,4 @@
-// controllers/authController.js
+
 const User = require('../models/User');
 const { sign } = require("jsonwebtoken");
 
@@ -52,4 +52,8 @@ exports.signIn = async (req, res) => {
       message: error.message,
     });
   }
+};
+
+exports.logout = (req, res) => {
+  res.status(200).json({ message: "Logged out successfully" });
 };
