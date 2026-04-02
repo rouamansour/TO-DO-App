@@ -16,15 +16,27 @@ exports.getTodos = async (req, res) => {
   res.json(todos);
 };
 
+
 // POST /api/todos
 exports.createTodo = async (req, res) => {
-  const todo = await Todo.create({ title: req.body.title });
+  const { title, priority, dueDate } = req.body;
+  const todo = await Todo.create({
+    title,
+    priority: priority || 'Low',
+    dueDate: dueDate || null,
+  });
   res.status(201).json(todo);
 };
 
 // PUT /api/todos/:id
 exports.updateTodo = async (req, res) => {
-  const todo = await Todo.findByIdAndUpdate(req.params.id, req.body, {
+  const { title, completed, priority, dueDate } = req.body;
+  const updateFields = {};
+  if (title !== undefined) updateFields.title = title;
+  if (completed !== undefined) updateFields.completed = completed;
+  if (priority !== undefined) updateFields.priority = priority;
+  if (dueDate !== undefined) updateFields.dueDate = dueDate;
+  const todo = await Todo.findByIdAndUpdate(req.params.id, updateFields, {
     new: true,
     runValidators: true,
   });

@@ -8,6 +8,8 @@ type Todo = {
   _id: string;
   title: string;
   completed: boolean;
+  priority?: string;
+  dueDate?: string;
 };
 
 export default function TodoPage() {
@@ -112,6 +114,8 @@ export default function TodoPage() {
               <thead className="bg-gradient-to-r from-blue-100 to-blue-200">
                 <tr>
                   <th className="px-6 py-4 text-left text-gray-700 font-bold text-lg tracking-wide">Title</th>
+                  <th className="px-6 py-4 text-left text-gray-700 font-bold text-lg tracking-wide">Priority</th>
+                  <th className="px-6 py-4 text-left text-gray-700 font-bold text-lg tracking-wide">Due Date</th>
                   <th className="px-6 py-4 text-left text-gray-700 font-bold text-lg tracking-wide">Actions</th>
                 </tr>
               </thead>
@@ -131,6 +135,8 @@ export default function TodoPage() {
                         <span className="ml-2 text-green-600" title="Done">✔️</span>
                       )}
                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-lg text-gray-900">{todo.priority || 'Low'}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-lg text-gray-900">{todo.dueDate ? new Date(todo.dueDate).toLocaleDateString() : '-'}</td>
                     <td className="px-6 py-4 flex gap-2 items-center">
                       {!todo.completed && (
                         <button

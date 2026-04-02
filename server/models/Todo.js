@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const todoSchema = new mongoose.Schema(
   {
     title: {
@@ -10,6 +11,15 @@ const todoSchema = new mongoose.Schema(
     completed: {
       type: Boolean,
       default: false,
+    },
+    priority: {
+      type: String,
+      enum: ['Low', 'Medium', 'High'],
+      default: 'Low',
+    },
+    dueDate: {
+      type: Date,
+      default: null,
     },
   },
   { timestamps: true }
