@@ -32,6 +32,7 @@
   border-radius: 0.7rem;
   font-size: 1rem;
   background: #f9fafb;
+  color: #2d3748;
   transition: border 0.2s;
 }
 .input:focus {
