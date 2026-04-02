@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+
 const {
   getTodos,
   getTodoById,
@@ -7,12 +8,14 @@ const {
   updateTodo,
   deleteTodo,
 } = require('../controllers/todoController');
+const { protect, authorize } = require('../middleware/auth');
 
+// Toutes les routes nécessitent une authentification
+router.get('/', protect, getTodos);
+router.get('/:id', protect, getTodoById);
+router.post('/', protect, authorize('user', 'admin'), createTodo);
+router.put('/:id', protect, authorize('user', 'admin'), updateTodo);
 
-router.get('/', getTodos);
-router.get('/:id', getTodoById);
-router.post('/', createTodo);
-router.put('/:id', updateTodo);
-router.delete('/:id', deleteTodo);
+router.delete('/:id', protect, authorize('admin'), deleteTodo);
 
 module.exports = router;

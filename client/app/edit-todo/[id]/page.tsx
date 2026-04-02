@@ -35,9 +35,13 @@ export default function EditTodo() {
     setError("");
     setLoading(true);
     try {
+      const token = localStorage.getItem("token");
       const res = await fetch(`http://localhost:5000/api/todos/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         body: JSON.stringify({ title, priority, dueDate: dueDate || null }),
       });
       if (!res.ok) throw new Error("Failed to update todo");

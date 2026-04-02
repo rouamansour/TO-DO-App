@@ -19,6 +19,9 @@ export default function SignIn() {
     });
     const data = await res.json();
     if (res.ok) {
+      // Stocker le token et le rôle
+      if (data.token) localStorage.setItem("token", data.token);
+      if (data.user && data.user.role) localStorage.setItem("role", data.user.role);
       router.push("/todo-list");
     } else {
       setError(data.message || "Sign in failed");

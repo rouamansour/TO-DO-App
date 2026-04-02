@@ -12,29 +12,45 @@ type Todo = {
   dueDate?: string;
 };
 
+
 export default function TodoPage() {
   const router = useRouter();
   const [todos, setTodos] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/todos")
+    // Récupère le rôle depuis localStorage
+    setRole(localStorage.getItem("role"));
+    const token = localStorage.getItem("token");
+    fetch("http://localhost:5000/api/todos", {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
       .then((res) => res.json())
       .then((data) => {
-        setTodos(data);
+        // Si la réponse n'est pas un tableau, force un tableau vide
+        if (Array.isArray(data)) {
+          setTodos(data);
+        } else {
+          setTodos([]);
+        }
         setLoading(false);
       });
   }, []);
 
   // Delete todo
   const handleDelete = async (id: string) => {
+    const token = localStorage.getItem("token");
     try {
       const res = await fetch(`http://localhost:5000/api/todos/${id}`, {
         method: "DELETE",
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
 
       if (res.ok) {
         setTodos((prev) => prev.filter((todo) => todo._id !== id));
+      } else {
+        alert("You are not authorized to delete this todo.");
       }
     } catch (err) {
       console.error(err);
@@ -43,10 +59,14 @@ export default function TodoPage() {
 
   // Mark as done
   const handleDone = async (id: string) => {
+    const token = localStorage.getItem("token");
     try {
       const res = await fetch(`http://localhost:5000/api/todos/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         body: JSON.stringify({ completed: true }),
       });
       if (res.ok) {
@@ -159,13 +179,15 @@ export default function TodoPage() {
                       ✏️
                     </button>
                   )}
-                  <button
-                    className="px-3 py-1 bg-red-50 text-red-600 font-medium rounded-lg border border-red-200 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-300 transition-all duration-150"
-                    onClick={() => handleDelete(todo._id)}
-                    title="Delete"
-                  >
-                    ❌
-                  </button>
+                  {role === "admin" && (
+                    <button
+                      className="px-3 py-1 bg-red-50 text-red-600 font-medium rounded-lg border border-red-200 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-300 transition-all duration-150"
+                      onClick={() => handleDelete(todo._id)}
+                      title="Delete"
+                    >
+                      ❌
+                    </button>
+                  )}
                 </div>
               </li>
             ))}

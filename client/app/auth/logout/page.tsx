@@ -6,8 +6,9 @@ export default function LogoutPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Remove token from localStorage
+    // Remove token and role from localStorage
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
     // Call backend to notify logout 
     fetch("http://localhost:5000/api/auth/logout", {
       method: "POST",

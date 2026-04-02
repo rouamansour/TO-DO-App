@@ -2,30 +2,35 @@
 const User = require('../models/User');
 const { sign } = require("jsonwebtoken");
 
-const createToken = (id, email) => {
-  return sign({ id, email, max: 8 }, process.env.JWT_SECRET, {
+const createToken = (id, email, role) => {
+  return sign({ id, email, role }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
 };
 
 exports.signUp = async (req, res) => {
-	try {
-		const newUser = await User.create({
-			...req.body,
-			role: req.body.role === "admin" ? "user" : req.body.role,
-		});
-		 res.status(201).json({
-            status:"success",
-            data:{
-                user:newUser
-            }
-        })
-    } catch (error) {
-        res.status(400).json({
-            status:"fail",
-            message:error.message
-        })
-    }
+  try {
+    let role = req.body.role;
+    if (!role || (role !== 'admin' && role !== 'user')) role = 'user';
+   
+    const newUser = await User.create({
+      ...req.body,
+      role,
+    });
+    const token = createToken(newUser._id, newUser.email, newUser.role);
+    res.status(201).json({
+      status: 'success',
+      token,
+      data: {
+        user: newUser,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      message: error.message,
+    });
+  }
 };
 
 exports.signIn = async (req, res) => {
@@ -42,10 +47,15 @@ exports.signIn = async (req, res) => {
         message: "Email or password are incorrect !!",
       });
     }
-    const token = createToken(user._id, user.email);
+    const token = createToken(user._id, user.email, user.role);
     res.status(200).json({
       message: "Logged In !!!",
       token,
+      user: {
+        _id: user._id,
+        email: user.email,
+        role: user.role,
+      },
     });
   } catch (error) {
     res.status(400).json({
