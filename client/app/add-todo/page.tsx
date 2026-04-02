@@ -34,22 +34,15 @@ export default function AddTodo() {
 	};
 
 	return (
-      <div className="w-full max-w-2xl p-20 bg-white/20 backdrop-blur-lg rounded-3xl shadow-2xl border border-blue-700 mx-auto mt-25">
-			
-				<div className="flex justify-center mb-8">
-					<h1
-						className="relative text-4xl font-extrabold text-center tracking-tight px-8 py-4 bg-gradient-to-r from-blue-700/80 via-blue-500/80 to-blue-700/80 text-white rounded-2xl shadow-xl border-4 border-blue-400/80 drop-shadow-lg"
-						style={{
-							letterSpacing: '0.04em',
-							boxShadow: '0 6px 32px 0 rgba(30,64,175,0.18)',
-						}}
-					>
-						<span className="align-middle">Add Todo</span>
-					</h1>
-				</div>
-				<form onSubmit={handleSubmit} className="space-y-8">
+		<main className="min-h-screen bg-[#f8fafc] flex flex-col items-center py-12 px-2">
+			<section className="w-full max-w-xl bg-white border border-gray-200 rounded-2xl shadow-sm p-8 mx-auto">
+				<h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mb-8 text-center flex items-center gap-2 justify-center">
+					<span className="text-blue-600">➕</span>
+					<span>Add Todo</span>
+				</h1>
+				<form onSubmit={handleSubmit} className="space-y-7">
 					<input
-						className="w-full px-5 py-4 rounded-xl border border-gray-300 bg-white/80 text-gray-900 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 shadow-lg transition-all duration-200"
+						className="w-full px-5 py-4 rounded-lg border border-gray-300 bg-white text-gray-900 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 shadow-sm transition-all duration-200"
 						type="text"
 						value={title}
 						onChange={(e) => setTitle(e.target.value)}
@@ -57,12 +50,11 @@ export default function AddTodo() {
 						required
 						disabled={loading}
 					/>
-
 					<div className="flex flex-col md:flex-row gap-4">
 						<div className="flex-1">
 							<label className="block mb-2 font-medium text-gray-700">Priority</label>
 							<select
-								className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white/80 text-gray-900 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-lg transition-all duration-200"
+								className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition-all duration-200"
 								value={priority}
 								onChange={e => setPriority(e.target.value)}
 								disabled={loading}
@@ -76,7 +68,7 @@ export default function AddTodo() {
 						<div className="flex-1">
 							<label className="block mb-2 font-medium text-gray-700">Due Date</label>
 							<input
-								className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white/80 text-gray-900 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-lg transition-all duration-200"
+								className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition-all duration-200"
 								type="date"
 								value={dueDate}
 								onChange={e => setDueDate(e.target.value)}
@@ -84,17 +76,17 @@ export default function AddTodo() {
 							/>
 						</div>
 					</div>
-
 					<button
 						type="submit"
-						className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:from-blue-700 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200 disabled:opacity-50 text-lg"
+						className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200 disabled:opacity-50 text-lg"
 						disabled={loading}
 					>
 						<span className="text-xl">➕</span>
 						{loading ? "Adding..." : "Add"}
 					</button>
-					{error && <div className="text-red-400 text-center font-medium">{error}</div>}
+					{error && <div className="text-red-500 text-center font-medium">{error}</div>}
 				</form>
-		</div>
+			</section>
+		</main>
 	);
 }
