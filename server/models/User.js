@@ -3,12 +3,6 @@ const validator = require("validator");
 const { hash, compare } = require("bcryptjs");
 
 const userSchema = mongoose.Schema({
-  /*name: {
-    type: String,
-    required: [true, "The name is required!!"], //tnjm tkoun [] 3al5tr mongoose ya9ra table list
-    minlength: 3,
-    maxlength: 20,
-  },*/
   email: {
     type: String,
     required: [true, "The email is required!!"],
@@ -48,9 +42,7 @@ const userSchema = mongoose.Schema({
   },
 });
 
-// Encrypt password before saving
 
-//mieddleware to check if the password is modified or not
 userSchema.pre("save", async function () {
   if (!this.isModified("password")) return;
  // this.password = await bcrypt.hash(this.password, 12); //salt key: 9adch bch t3ml hashage men mara 
