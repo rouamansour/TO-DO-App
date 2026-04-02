@@ -3,12 +3,15 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 
+
 export default function EditTodo() {
   const router = useRouter();
   const params = useParams();
   const id = params?.id as string;
 
   const [title, setTitle] = useState("");
+  const [priority, setPriority] = useState("Low");
+  const [dueDate, setDueDate] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -19,6 +22,8 @@ export default function EditTodo() {
       .then((res) => res.json())
       .then((data) => {
         setTitle(data.title);
+        setPriority(data.priority || "Low");
+        setDueDate(data.dueDate ? data.dueDate.slice(0, 10) : "");
         setLoading(false);
       })
       .catch(() => {
@@ -36,7 +41,7 @@ export default function EditTodo() {
       const res = await fetch(`http://localhost:5000/api/todos/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title }),
+        body: JSON.stringify({ title, priority, dueDate: dueDate || null }),
       });
 
       if (!res.ok) throw new Error("Failed to update todo");
@@ -81,6 +86,32 @@ export default function EditTodo() {
             required
             disabled={loading}
           />
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1">
+              <label className="block mb-2 font-medium text-gray-700">Priority</label>
+              <select
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white/80 text-gray-900 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-lg transition-all duration-200"
+                value={priority}
+                onChange={e => setPriority(e.target.value)}
+                disabled={loading}
+                required
+              >
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+              </select>
+            </div>
+            <div className="flex-1">
+              <label className="block mb-2 font-medium text-gray-700">Due Date</label>
+              <input
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white/80 text-gray-900 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-lg transition-all duration-200"
+                type="date"
+                value={dueDate}
+                onChange={e => setDueDate(e.target.value)}
+                disabled={loading}
+              />
+            </div>
+          </div>
           <button
             type="submit"
             className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:from-blue-700 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200 disabled:opacity-50 text-lg"
