@@ -9,7 +9,6 @@ export default function LogoutPage() {
     // Remove token and role from localStorage
     localStorage.removeItem("token");
     localStorage.removeItem("role");
-    // Call backend to notify logout 
     fetch("http://localhost:5000/api/auth/logout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

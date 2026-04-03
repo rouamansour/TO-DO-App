@@ -20,7 +20,6 @@ export default function TodoPage() {
   const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
-    // Récupère le rôle depuis localStorage
     setRole(localStorage.getItem("role"));
     const token = localStorage.getItem("token");
     fetch("http://localhost:5000/api/todos", {
@@ -28,7 +27,6 @@ export default function TodoPage() {
     })
       .then((res) => res.json())
       .then((data) => {
-        // Si la réponse n'est pas un tableau, force un tableau vide
         if (Array.isArray(data)) {
           setTodos(data);
         } else {
@@ -38,7 +36,6 @@ export default function TodoPage() {
       });
   }, []);
 
-  // Delete todo
   const handleDelete = async (id: string) => {
     const token = localStorage.getItem("token");
     try {
@@ -57,7 +54,6 @@ export default function TodoPage() {
     }
   };
 
-  // Mark as done
   const handleDone = async (id: string) => {
     const token = localStorage.getItem("token");
     try {
@@ -81,8 +77,6 @@ export default function TodoPage() {
     }
   };
 
-  // Edit todo: redirect to edit page
-  // Show message if trying to edit a completed task
   const [editError, setEditError] = useState<string | null>(null);
   const handleEdit = (id: string) => {
     const todo = todos.find((t) => t._id === id);

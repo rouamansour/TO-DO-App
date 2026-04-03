@@ -24,7 +24,6 @@ export default function SignUp() {
     });
     const data = await res.json();
     if (res.ok) {
-      // Si le backend retourne un token et un user, stocke-les (cas admin)
       if (data.token) localStorage.setItem("token", data.token);
       if (data.data && data.data.user && data.data.user.role) localStorage.setItem("role", data.data.user.role);
       router.push("/auth/signin");
