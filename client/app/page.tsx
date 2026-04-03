@@ -28,7 +28,7 @@ export default function Home() {
         setLoading(false);
       });
 
-    // Get deleted count from localStorage (simulate, since no API for deleted)
+    // Get deleted count from localStorage 
     const deleted = localStorage.getItem("deletedCount");
     setDeletedCount(deleted ? parseInt(deleted, 10) : 0);
   }, []);

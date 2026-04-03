@@ -16,15 +16,30 @@ export default function EditTodo() {
 
   useEffect(() => {
     if (!id) return;
-    fetch(`http://localhost:5000/api/todos/${id}`)
-      .then((res) => res.json())
+    const token = localStorage.getItem("token");
+    fetch(`http://localhost:5000/api/todos/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Unauthorized or not found");
+        return res.json();
+      })
       .then((data) => {
-        setTitle(data.title);
-        setPriority(data.priority || "Low");
-        setDueDate(data.dueDate ? data.dueDate.slice(0, 10) : "");
+        console.log("Fetched todo data:", data);
+        if (!data || !data.title) {
+          setError("Todo not found or missing fields");
+        } else {
+          setTitle(data.title);
+          setPriority(data.priority || "Low");
+          setDueDate(data.dueDate ? data.dueDate.slice(0, 10) : "");
+        }
         setLoading(false);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error("Fetch error:", err);
         setError("Failed to load todo");
         setLoading(false);
       });
@@ -58,6 +73,15 @@ export default function EditTodo() {
       <main className="min-h-screen w-full flex items-center justify-center bg-[#f8fafc]">
         <div className="text-center text-gray-400 text-lg animate-pulse">
           Loading...
+        </div>
+      </main>
+    );
+  }
+  if (error) {
+    return (
+      <main className="min-h-screen w-full flex items-center justify-center bg-[#f8fafc]">
+        <div className="text-center text-red-500 text-lg font-semibold">
+          {error}
         </div>
       </main>
     );
