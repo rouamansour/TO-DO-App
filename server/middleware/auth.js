@@ -1,8 +1,6 @@
-// Middleware d'authentification et d'autorisation RBAC
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// Vérifie le token JWT et ajoute req.user
 exports.protect = async (req, res, next) => {
   let token;
   if (
@@ -26,7 +24,6 @@ exports.protect = async (req, res, next) => {
   }
 };
 
-// Middleware d'autorisation par rôle
 exports.authorize = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {

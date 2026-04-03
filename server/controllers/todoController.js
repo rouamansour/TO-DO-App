@@ -5,14 +5,14 @@ exports.getTodoById = async (req, res) => {
     if (!todo) return res.status(404).json({ message: 'Todo not found' });
     res.json(todo);
   } catch (err) {
-    res.status(400).json({ message: 'Invalid ID' });
+    res.status(400).json({ message: 'Invalid ID !!!!' });
   }
 };
 const Todo = require('../models/Todo');
 
 // GET /api/todos
 exports.getTodos = async (req, res) => {
-  const todos = await Todo.find().sort({ createdAt: -1 });
+  const todos = await Todo.find().sort({ createdAt: -1 }); //Sort todos by creation date: descending order
   res.json(todos);
 };
 
