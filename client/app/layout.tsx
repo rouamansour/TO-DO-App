@@ -8,7 +8,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased bg-gradient-to-br from-blue-50 via-white to-pink-50 min-h-screen">
+      <body>
         <NavbarWrapper />
         <main className="max-w-xl mx-auto">{children}</main>
       </body>
