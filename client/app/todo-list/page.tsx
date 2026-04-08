@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 type Todo = {
   _id: string;
@@ -90,6 +91,9 @@ export default function TodoPage() {
 
   return (
     <main className="min-h-screen bg-[#f8fafc] flex flex-col items-center py-12 px-2">
+      <div className="p-4">
+      <Button>Click me</Button>
+    </div>
       {editError && (
         <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg text-center font-semibold shadow-sm w-full max-w-xl">
           {editError}
